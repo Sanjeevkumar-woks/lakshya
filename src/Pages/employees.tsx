@@ -1,10 +1,10 @@
 import React from "react";
+import { TasksTable } from "../components/Task/TasksTable";
 
 const Employees: React.FC = () => {
   return (
     <div className="py-24 m-10">
-      <h2>Employees Page</h2>
-      <p>This is the Employees Page.</p>
+      <TasksTable />
     </div>
   );
 };

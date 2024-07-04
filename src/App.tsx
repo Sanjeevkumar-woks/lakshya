@@ -10,31 +10,46 @@ import Projects from "./Pages/projects";
 import Employees from "./Pages/employees";
 import Settings from "./Pages/settings";
 import Teams from "./Pages/teams";
+import { QueryClient, QueryClientProvider } from "react-query";
+import ErrorBoundary from "antd/es/alert/ErrorBoundary";
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState(SidebarTabsEnum.Dashboard);
   useEffect(() => {}, [activeTab]);
 
   return (
-    <ConfigProvider theme={{ token: { colorPrimary: "#00b96b" } }}>
-      <BrowserRouter>
-        <div className="flex">
-          <Header />
-          <Sidebar
-            activeTab={SidebarTabsEnum.Dashboard}
-            setActiveTab={setActiveTab}
-          />
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/tasks" element={<Tasks />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/teams" element={<Teams />} />
-            <Route path="/employees" element={<Employees />} />
-            <Route path="/settings" element={<Settings />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </ConfigProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <ConfigProvider theme={{ token: { colorPrimary: "#00b96b" } }}>
+          <BrowserRouter>
+            <div className="flex">
+              <Header />
+              <Sidebar
+                activeTab={SidebarTabsEnum.Dashboard}
+                setActiveTab={setActiveTab}
+              />
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/tasks" element={<Tasks />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/teams" element={<Teams />} />
+                <Route path="/employees" element={<Employees />} />
+                <Route path="/settings" element={<Settings />} />
+              </Routes>
+            </div>
+          </BrowserRouter>
+        </ConfigProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 };
 
