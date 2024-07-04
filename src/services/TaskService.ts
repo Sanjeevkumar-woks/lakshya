@@ -2,9 +2,9 @@ import { TaskPriorityEnum } from "../enums/tasks";
 import { fetcher } from "../utils/featcher";
 import { queryFetcher } from "../utils/queryFeatchetr";
 import config from "config";
-const TASK_SERVICE = config.get("BACKEND_URL");
+const TASK_SERVICE = "http://localhost:8080/task-service";
 
-export class TaskService {
+export class TasksService {
   static GET_TASKS = `${TASK_SERVICE}/tasks/getTasks`;
   static ADD_TASK = `${TASK_SERVICE}/tasks/addTask`;
   static UPDATE_TASK = `${TASK_SERVICE}/tasks/updateTask`;
@@ -13,13 +13,15 @@ export class TaskService {
   static async getTask(payload: {
     page: number;
     size: number;
-    taskStatus: string;
-    createdByIds: string;
-    search: string;
+    taskIds?: string[];
+    taskStatus?: string;
+    createdByIds?: string;
+    appliedFilters?: {};
+    searchKeyword?: string;
   }) {
     return await queryFetcher({
       method: "GET",
-      url: TaskService.GET_TASKS,
+      url: TasksService.GET_TASKS,
       params: payload,
     });
   }
@@ -34,7 +36,7 @@ export class TaskService {
   }) {
     return await fetcher({
       method: "POST",
-      url: TaskService.ADD_TASK,
+      url: TasksService.ADD_TASK,
       data: payload,
     });
   }
@@ -50,7 +52,7 @@ export class TaskService {
   }) {
     return await fetcher({
       method: "PUT",
-      url: TaskService.UPDATE_TASK,
+      url: TasksService.UPDATE_TASK,
       data: payload,
     });
   }
@@ -58,7 +60,7 @@ export class TaskService {
   static async deleteTask(payload: { taskIds: string[] }) {
     return await fetcher({
       method: "DELETE",
-      url: TaskService.DELETE_TASK,
+      url: TasksService.DELETE_TASK,
       data: payload,
     });
   }
