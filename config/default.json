@@ -1,0 +1,8 @@
+{
+  "BACKEND_URL": {
+    "TASK_SERVICE": "http://localhost:8080/task-service/"
+  },
+  "FRONTEND_URL": {
+    "APP_URL": "http://localhost:3000/"
+  }
+}
